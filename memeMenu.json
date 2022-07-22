@@ -1,0 +1,25 @@
+{
+    "Meme page 1 - Stock Images (!stock)" : {
+        "Make meme by choosing format and using two phrases. Must use quotation marks i.e. !stock gunfish \"Hello\" \"world\"" : "!stock <template> <message> <message>",
+        "stock image of couple in bed, woman looking annoyed at partner!" : "stockbed",
+        "Stock image of woman pointing a gun at a goldfish!" : "gunfish",
+        "Stock image of woman taking a picture of something in the distance!" : "girlcamera",
+        "Stock image of woman looking at her laptop with a pleased expression" : "laptoplook",
+        "Stock image of mans face photoshopped into an egg!" : "manegg",
+        "Stock image of people looking at laptop!" : "business",
+        "Stock image of couple waking up in bed!" : "wakeupbabe",
+        "Stock image of guy with glasses and putting up a finger gun!" : "coolguy",
+        "Stock image of penguin with glasses drinking a smoothie!" : "penguin",
+        "Stock image of man with hand on his head looking down in disappointment!" : "sadguy",
+        "Stock image of man with a baseball bat in his hand!" : "batguy",
+        "Stock image of man pointing gun at a clock!" : "clockgun"
+    },
+    "Meme page 2 - Emoji faces (!emoji)" : {
+        "Make meme by choosing format and using two phrases. Must use quotation marks i.e. !emoji smileyface \"Hello\" \"world\"" : "!emoji <template> <message> <message>",
+        "Angry face emoji" : "angryface",
+        "Smiley face emoji" : "smileyface",
+        "Joy face emoji" : "joyface",
+        "Quiet/shushing face emoji" : "quietface",
+        "Nerd face emoji" : "nerdface"
+    }
+}
