@@ -7,6 +7,7 @@ from nextcord import ButtonStyle, Embed, File
 from nextcord.ui import Button, View
 import youtube_dl
 import textwrap
+import pyaudio
 import random
 import os
 
