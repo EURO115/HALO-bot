@@ -5,9 +5,7 @@ import nextcord, asyncio, json
 from PIL import Image, ImageFont, ImageDraw
 from nextcord import ButtonStyle, Embed, File
 from nextcord.ui import Button, View
-import youtube_dl
 import textwrap
-import pyaudio
 import random
 import os
 
@@ -361,62 +359,6 @@ async def emoji(ctx, image_path, top, bottom): #star means we can use any amount
     with open("./images/meme-edited.jpg", "rb") as f:
         img = File(f)
         await ctx.channel.send(file=img)
-
-@bot.command()
-async def play(ctx, url: str):
-    song_there = os.path.isfile("song.mp3")
-    try:
-        if song_there:
-            os.remove("song.mp3")
-    except PermissionError:
-        await ctx.send("Wait for current music to stop playing!")
-        return
-
-    VoiceChannel = nextcord.utils.get(ctx.guild.voice_channels, name=ctx.author.voice.channel.name)
-    await VoiceChannel.connect()
-    voice = nextcord.utils.get(bot.voice_clients, guild=ctx.guild)
-    await ctx.send("Video initialised. PLease wait for bot to load in")
-
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-    }
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
-    for file in os.listdir("./"):
-        if file.endswith(".mp3"):
-            os.rename(file, "song.mp3")
-    voice.play(nextcord.FFmpegPCMAudio("song.mp3"))
-    await ctx.send(f"Now playing {url}")
-
-@bot.command()
-async def leave(ctx):
-    if ctx.voice_client is not None:
-        return await ctx.voice_client.disconnect()
-    await ctx.send("I am not connected to a voice channel.")
-
-@bot.command()
-async def pause(ctx):
-        if ctx.voice_client.is_paused():
-            return await ctx.send("I am already paused.")
-
-        ctx.voice_client.pause()
-        await ctx.send("The current song has been paused.")
-
-@bot.command()
-async def resume(ctx):
-    if ctx.voice_client is None:
-        return await ctx.send("I am not connected to a voice channel.")
-
-    if not ctx.voice_client.is_paused():
-        return await ctx.send("I am already playing a song.")
-        
-    ctx.voice_client.resume()
-    await ctx.send("The current song has been resumed.")
 
 @bot.event
 async def on_command_error(ctx, err):
