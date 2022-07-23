@@ -189,7 +189,7 @@ async def flip(ctx, choice):
 @bot.command()
 async def createPassword(ctx, user: nextcord.Member, *, length: int, password=None):
     if length > 20:
-        await ctx.send("Command failed. Length size too big, please retype command and select a smaller number!")
+        await ctx.send("Command failed. Length size too big, please retype command and select a smaller number! (20 characters or lower)")
         return
     else:
         await ctx.send("New password generated. Sending over to dms!")
