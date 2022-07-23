@@ -255,7 +255,7 @@ async def clear(ctx, amount: int):
             continue
 
 @bot.command()
-async def reminder(ctx, time, *, reminder):
+async def reminder(ctx, *time, *, reminder):
     user = ctx.author.mention
     def convert(time):
         pos = ['s', 'm', 'h', 'd', 'y']
