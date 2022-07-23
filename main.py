@@ -7,6 +7,7 @@ from nextcord import ButtonStyle, Embed, File
 from nextcord.ui import Button, View
 import textwrap
 import random
+import time
 import os
 
 HG = json.load(open("help.json"))
@@ -94,13 +95,60 @@ async def Help(ctx):
 @bot.command(name='hi')
 async def hi(ctx):
     msg = await ctx.send(f'Hello {ctx.author.mention}')
-    happy = '😃'
-    meh = '😐'
-    sad = '😔'
-    crying = '😭'
-    angry = '😠'
-    await msg.add_reaction(happy), await msg.add_reaction(meh), await msg.add_reaction(sad), await msg.add_reaction(crying),
-    await msg.add_reaction(angry)
+
+@bot.command(name='fart')
+async def fart(ctx, user: nextcord.Member):
+    await ctx.send(f'{ctx.author.mention} is about to commence the greatest fart of all time!')
+    time.sleep(2)
+    await ctx.send("😃")
+    time.sleep(1)
+    await ctx.send("😐")
+    time.sleep(1)
+    await ctx.send("😣")
+    time.sleep(1)
+    await ctx.send("😣")
+    time.sleep(1)
+    await ctx.send("😫")
+    time.sleep(1)
+    await ctx.send("The great fart travels. With no stopping in sight")
+    time.sleep(2)
+    await ctx.send("😫💨")
+    time.sleep(2)
+    await ctx.send("But wait.....THE FART HAS EVOLVED!!!")
+    time.sleep(2)
+    await ctx.send("😫🔥💨")
+    time.sleep(1)
+    ctx.send(f"{ctx.author.mention} fart is so extreme it has become THERMAL!!")
+    time.sleep(3)
+    await ctx.send("😫🔥        💨")
+    time.sleep(1)
+    await ctx.send("😫🔥            💨")
+    time.sleep(1)
+    await ctx.send("😫🔥                💨")
+    time.sleep(1)
+    await ctx.send("😫🔥                    💨")
+    time.sleep(1)
+    await ctx.send(f"{ctx.author.mention} RELEASES MORE FARTS INTO THE ATMOSPHERE!!!")
+    time.sleep(3)
+    await ctx.send("😫🔥💨💨💨💨💨💨")
+    time.sleep(1)
+    await ctx.send("😫🔥💨💨💨💨💨💨💨💨")
+    time.sleep(1)
+    await ctx.send("😫🔥💨💨💨💨💨💨💨💨💨💨")
+    time.sleep(1)
+    await ctx.send(f"OH GOD THE WORLD IS FILLING WITH FARTS, WHAT HAVE YOU DONE {ctx.author.mention}")
+    time.sleep(5)
+    await ctx.send("OH DEAR GOD THE EARTH!!")
+    time.sleep(3)
+    await ctx.send("💨          🌍")
+    time.sleep(1)
+    await ctx.send("💨      🌍")
+    time.sleep(1)
+    await ctx.send("💨  🌍")
+    time.sleep(1)
+    await ctx.send("🔥🔥🔥")
+    time.sleep(3)
+    await ctx.send("And so ends the world ending fart. Thank you for watching!")
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -130,7 +178,7 @@ async def flip(ctx, choice):
     result = random.choice(options)
     await ctx.send(f"Time to play: Heads or Tails. You have chosen: {choice} ")
     if choice != "H" and choice != "T":
-        await ctx.send("Game failed: Please choose either 'H' or 'T'!")
+        await ctx.send("Command Failed: Please retype command and choose either 'H' or 'T' next time!")
     else:
         await ctx.send(f"The coin has been flipped, revealed to be: {result} ")
         if result == choice:
@@ -140,12 +188,18 @@ async def flip(ctx, choice):
 
 @bot.command()
 async def createPassword(ctx, user: nextcord.Member, *, length: int, password=None):
-    await ctx.send("New password generated. Sending over to dms!")
-    letters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(secrets.choice(letters)
-                for i in range(length))
+    if length > 20:
+        await ctx.send("Command failed. Length size too big, please retype command and select a smaller number!")
+        return
+    else:
+        await ctx.send("New password generated. Sending over to dms!")
+        letters = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(secrets.choice(letters)
+                    for i in range(length))
 
-    await user.send(f"Your new generated password is: {password}.")
+        await user.send(f"Your new generated password is: {password}.")
+        await user.send("Please note that while this password uses a variety of keybindings to make it secure, you make sure you save this somewhere secure or edit what we sent you to make it easier for yourself!")
+        await user.send("We cannot say absolutely that this password will be good, but rest assured only YOU have knowledge of this. The bot does not save any recordings due to several privacy regulations!")
 
 @bot.command()
 async def rudeball(ctx):
@@ -177,8 +231,28 @@ async def mention(ctx):
 
 @bot.command()
 async def clear(ctx, amount: int):
-    await ctx.channel.purge(limit=amount+1)
-    await ctx.send(f"Deleted {amount} message(s)")
+    while True:
+        if amount > 20:
+            await ctx.send("Sorry but you cannot clear that many messages. Please re-type command and select a smaller number!")
+            break
+        await ctx.send(f"Are you sure you wish to delete {amount} messages? (Y/N)")
+        try:
+            msg = await bot.wait_for("message", timeout=30, check=lambda message: message.author == ctx.author)
+        except asyncio.TimeoutError:
+            await ctx.send("Action took too long. Please try again and respond faster to command!")
+            break
+
+        if msg.content == "Y":
+            await ctx.send("Deleting now!")
+            await ctx.channel.purge(limit=amount+2)
+            await ctx.send(f"Deleted {amount} message(s)")
+            break
+        elif msg.content == "N":
+            await ctx.send("Clearing Cancelled. No messages will be deleted!")
+            break
+        else:
+            await ctx.send("Command failed. Please send either 'Y' or 'N' in the channel!")
+            continue
 
 @bot.command()
 async def reminder(ctx, time, *, reminder):
@@ -212,10 +286,6 @@ async def reminder(ctx, time, *, reminder):
     await ctx.send(f"{user} Your reminder of **{reminder}** has finished!")
 
 
-
-
-
-
 # ------------- FUNNY IMAGE/MEME SEGMENT -----------------
 
 @bot.command(name="imogen")
@@ -223,7 +293,6 @@ async def imogen(ctx):
     with open("./images/imogen.jpg", "rb") as f:
         img = File(f)
         await ctx.channel.send(file=img)
-
 
 #Someone says specch
 #Printed onto image
