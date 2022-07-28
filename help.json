@@ -3,7 +3,8 @@
         "help" : "Provides help screen that showcases available commands!",
         "hi" : "Greets the person!",
         "clear <number>" : "Clears certain amount of messages i.e. !clear 10 will delete the 10 previous messages!",
-        "reminder <time> <message>" : "Will post the input at the time the user specifies. Use 's', 'm', 'h' and 'd' to tell the bot when to be reminded. I.e. '!reminder 10s pet cat' - reminds you in 10 seconds to pet your cat!"
+        "reminder <time> <message>" : "Will post the input at the time the user specifies. Use 's', 'm', 'h' and 'd' to tell the bot when to be reminded. I.e. '!reminder 10s pet cat' - reminds you in 10 seconds to pet your cat!",
+        "roast <user>" : "Roast a member within the discord server i.e. !roast ducklover123 OR !roast @ducklover123"
     },
     "Fun Commands -  Memes/Games" : {
         "flip <choice>" : "Choose between 'H' or 'T' in very simple heads or tails game!",
@@ -11,6 +12,7 @@
         "memeMenu" : "Load up and see all the meme formats available for use and make your own memes with them!",
         "imogen" : "Imogen all the people!",
         "rudeball <comment>" : "A somewhat sentient being that will comment back to you on any phrase/question you have for them. Just don't expect helpful/friendly responses!",
-        "createPassword <user> <length>" : "Create a unique password containing letters, digits and punctuation. Choose how long you want your password to be! i.e. !createPassword @[You] 20"
+        "createPassword <user> <length>" : "Create a unique password containing letters, digits and punctuation. Choose how long you want your password to be! i.e. !createPassword @[You] 20",
+        "battle <user> <user>" : "Fight between two users in the server. See which person is stronger than the other!"
     }
 } 
