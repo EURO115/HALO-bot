@@ -1,14 +1,21 @@
 #Necessary imports
+from asyncio import events
 import string
 import secrets
+from turtle import left
+from typing import KeysView
+import requests
+from aiohttp import request
 import nextcord, asyncio, json
 from PIL import Image, ImageFont, ImageDraw
-from nextcord import ButtonStyle, Embed, File
+from nextcord import ButtonStyle, Embed, File, Color, User
 from nextcord.ui import Button, View
 import textwrap
 import random
 import time
 import os
+
+from numpy import imag, isin
 
 HG = json.load(open("help.json"))
 menuBoi = json.load(open("memeMenu.json"))
@@ -40,6 +47,7 @@ def createMemeMenu(pageNum=0, inline=False):
         embed.set_footer(text=f"Page {pageNum+1} of {len(list(menuBoi))}")
     return embed
 
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name="memeMenu")
 async def memeMenu(ctx):
     currentPage = 0
@@ -64,7 +72,7 @@ async def memeMenu(ctx):
     newView.add_item(button)
     send_message = await ctx.send(embed=createMemeMenu(), view=newView)
 
-
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name="help")
 async def Help(ctx):
     currentPage = 0
@@ -92,10 +100,111 @@ async def Help(ctx):
 # ----------- Small interactive/Fun commands --------------
 
 #Command which responds with .send() whenever someone writes the function name 
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name='hi')
 async def hi(ctx):
     msg = await ctx.send(f'Hello {ctx.author.mention}')
+    
+@commands.cooldown(1, 5, commands.BucketType.user)
+@bot.command(name='battle')
+async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
+    event = random.randint(1, 5)
+    result = random.randint(1, 15)
+    if user1 == user2:
+        await ctx.send("You cannot battle yourself. Mention another fighter and try again!")
+        return
+    await ctx.send(f'The Battle Between **{user1.display_name}** and **{user2.display_name}** will now begin!')
+    time.sleep(3)
+    if event == 1:
+        await ctx.send(f'Both **{user1.display_name}** and **{user2.display_name}** are fighting mercilessly!')
+    if event == 2:
+        await ctx.send(f'**{user2.display_name}** takes the high ground!')
+    if event == 3:
+        await ctx.send(f'**{user1.display_name}** is planning a sneak attack!')
+    if event == 4:
+        await ctx.send(f'**{user1.display_name}** and **{user2.display_name}** are becoming increasingly tired!')
+    if event == 5:
+        await ctx.send("The battle is becoming increasingly tense!")
+    time.sleep(2)
+    if result == 1:
+        await ctx.send(f'Both **{user1.display_name}** and **{user2.display_name}** have killed eachother off!')
+        time.sleep(1)
+        await ctx.send("This battle is a draw!")
+        return
+    if result == 2:
+        await ctx.send(f'Both **{user1.display_name}** and **{user2.display_name}** decide to spare eachothers lives!')
+        time.sleep(1)
+        await ctx.send("This battle is a draw!")
+        return
+    if result == 3:
+        await ctx.send(f'Both **{user1.mdisplay_name}** and **{user2.display_name}** run away, what cowards!')
+        time.sleep(1)
+        await ctx.send("This battle has no result!")
+        return
+    if result == 4:
+        await ctx.send(f'**{user1.display_name}** beheads **{user2.display_name}**!')
+        time.sleep(1)
+        await ctx.send(f"{user1.mention} Wins!")
+        return
+    if result == 5:
+        await ctx.send(f'**{user1.display_name}** quickscopes **{user2.display_name}** in the head!')
+        time.sleep(1)
+        await ctx.send(f"{user1.mention} Wins!")
+        return
+    if result == 6:
+        await ctx.send(f'**{user2.display_name}** permanently deletes **{user1.display_name}** from existance!')
+        time.sleep(1)
+        await ctx.send(f"{user2.mention} Wins!")
+        return
+    if result == 7:
+        await ctx.send(f'**{user1.display_name}** decides to spare **{user2.display_name}**!')
+        time.sleep(1)
+        await ctx.send("Just kidding, they stab them in the heart!")
+        await ctx.send(f"{user1.mention} Wins!")
+        return
+    if result == 8:
+        await ctx.send(f'**{user2.display_name}** throws a Nokia at **{user1.display_name}**, killing them instantly!')
+        time.sleep(1)
+        await ctx.send(f"{user2.mention} Wins!")
+        return
+    if result == 9:
+        await ctx.send(f'**{user2.display_name}** creates an NFT of **{user1.display_name}**, ruining their life completely!')
+        time.sleep(1)
+        await ctx.send(f"{user2.mention} Wins (Worst way to go)!")
+        return
+    if result == 10:
+        await ctx.send(f'**{user1.display_name}** forces **{user2.display_name}** to play League of Legends. **{user2.display_name}** never recovers from this!')
+        time.sleep(1)
+        await ctx.send(f"{user1.mention} Wins!")
+        return
+    if result == 11:
+        await ctx.send(f'**{user2.display_name}** forces **{user1.display_name}** to play Valorant as Brimstone. **{user1.display_name}** has enough and shoots themselves!')
+        time.sleep(1)
+        await ctx.send(f"{user2.mention} Wins (Brimmy with that stimmy)!")
+        return
+    if result == 12:
+        await ctx.send(f'**{user1.display_name}** chops off **{user2.display_name}** limbs!!')
+        time.sleep(1)
+        await ctx.send(f"{user1.mention} Wins!")
+        return
+    if result == 13:
+        await ctx.send(f'**{user1.display_name}** makes **{user2.display_name}** a discord Moderator!')
+        time.sleep(1)
+        await ctx.send(f"{user1.mention} Wins!")
+        return
+    if result == 14:
+        await ctx.send(f'**{user2.display_name} forces **{user1.display_name}** to go to Great Yarmouth. The mere thought obliterates **{user1.display_name}**!')
+        time.sleep(1)
+        await ctx.send(f"{user2.mention} Wins!")
+        return
+    if result == 15:
+        await ctx.send(f'**{user2.display_name}** makes **{user1.display_name}** draw furry fanart!')
+        time.sleep(1)
+        await ctx.send(f"{user2.mention} Wins!")
+        return
 
+
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name='fart')
 async def fart(ctx, user: nextcord.Member):
     await ctx.send(f'{ctx.author.mention} is about to commence the greatest fart of all time!')
@@ -165,6 +274,7 @@ async def on_reaction_add(reaction, user):
     if reaction.emoji == '😠':
         await user.send("Joe mama")
 
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command()
 async def copypasta(ctx, numb: int):
     if numb == 1:
@@ -172,6 +282,7 @@ async def copypasta(ctx, numb: int):
     if numb == 2:
         await ctx.send("As a person who has lots of sex all the time, I can say that this game is 100% accurate to having sex with sexy women. like I do. everyday. this game did not make me horny, however. I am not gay. I just have too much sex with real women to spend more than 15 minutes in this game. on the other hand, I would recommend this game to people who do not have sex (unlike me because i have lots of sex with women lot) as there is a naked woman in it and she is naked. she kinda looks like one of my many girlfriends with who i have sex with a lot. i have lots of sex. i also very handsome and women ALWAYS want to have sex with me because i am very muscular and handsome and very good at video games. all my girlfriends say I'm very good at sex and playing video games and being handsome. one of my girlfriends asked me to have sex with her but i told her i was playing a sex game instead so she started crying and became a lesbian and killed herself because i did not have sex with her. i have sex with women. not men. i am not gay. i am very cool and handsome so girls always have sex with me because i am very cool and sexy. my penis is very big. all my girlfriends like my penis because it is very big and i am very good at sex with my women. every woman ive had sex with is very sexy and so am i. i have lots of sex. i am also very handsome and sexy and i have lots of sex.")
 
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command()
 async def flip(ctx, choice):
     options = ["H", "T"]
@@ -186,10 +297,11 @@ async def flip(ctx, choice):
         else:
             await ctx.send("You lose")
 
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command()
 async def createPassword(ctx, user: nextcord.Member, *, length: int, password=None):
     if length > 20:
-        await ctx.send("Command failed. Length size too big, please retype command and select a smaller number! (20 characters or lower)")
+        await ctx.send("Command failed. Length size too big, please retype command and select a smaller number!")
         return
     else:
         await ctx.send("New password generated. Sending over to dms!")
@@ -201,6 +313,7 @@ async def createPassword(ctx, user: nextcord.Member, *, length: int, password=No
         await user.send("Please note that while this password uses a variety of keybindings to make it secure, you make sure you save this somewhere secure or edit what we sent you to make it easier for yourself!")
         await user.send("We cannot say absolutely that this password will be good, but rest assured only YOU have knowledge of this. The bot does not save any recordings due to several privacy regulations!")
 
+@commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command()
 async def rudeball(ctx):
     num = random.randint(1, 10)
@@ -225,10 +338,12 @@ async def rudeball(ctx):
     if num == 10:
         await ctx.send("Mate idk about this question, all I know is you are the definition of crig!")
 
+@commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command()
 async def mention(ctx):
     await ctx.send(ctx.author.mention)
 
+@commands.cooldown(1, 10, commands.BucketType.user)
 @bot.command()
 async def clear(ctx, amount: int):
     while True:
@@ -254,6 +369,42 @@ async def clear(ctx, amount: int):
             await ctx.send("Command failed. Please send either 'Y' or 'N' in the channel!")
             continue
 
+
+@commands.cooldown(1, 3, commands.BucketType.user)
+@bot.command(name='roast')
+async def roast(ctx, user: nextcord.Member):
+    roast = {1: "smelly", 2: "Dumbass", 3: "Wanker", 4: "Cunt", 5: "Tosser", 6: "Great Yarmouth", 7: "Douchebag", 8: "Cock Muncher", 9: "Max", 10: "Rank Iron"}
+    x = random.choice(list(roast.values()))
+    
+    img = user.display_avatar
+    await img.save("./images/roasted.png")
+
+    msg = " ".join(x)
+    font = ImageFont.truetype("./resources/PatrickHand-Regular.ttf", 22)
+    image = Image.open("./images/roasted.png")
+    new = image.resize((234, 234))
+    new.save("./images/roasted.png")
+    new_image = Image.open("./images/roasted.png")
+    cx, cy = (110, 175)
+    
+    lines = textwrap.wrap(msg, width=30)
+    print(lines)
+    w, h = font.getsize(msg)
+    y_offset = (len(lines)*h)/2
+    y_text = cy-(h/2) - y_offset
+
+    for line in lines:  
+        draw = ImageDraw.Draw(new_image)
+        w, h = font.getsize(line)
+        draw.text((cx-(w/2), y_text), line, (0, 0, 0), font=font, stroke_width=1, stroke_fill='white')
+        new_image.save("./images/roasted-edit.png")
+        y_text += h
+    
+    with open("./images/roasted-edit.png", "rb") as f:
+        new_image = File(f)
+        await ctx.send(file=new_image)
+
+@commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command()
 async def reminder(ctx, time, *, reminder):
     user = ctx.author.mention
@@ -288,6 +439,7 @@ async def reminder(ctx, time, *, reminder):
 
 # ------------- FUNNY IMAGE/MEME SEGMENT -----------------
 
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name="imogen")
 async def imogen(ctx):
     with open("./images/imogen.jpg", "rb") as f:
@@ -296,6 +448,7 @@ async def imogen(ctx):
 
 #Someone says specch
 #Printed onto image
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name='redsus')
 async def redsus(ctx, *args): #star means we can use any amount of arguments
     msg = " ".join(args)
@@ -320,6 +473,7 @@ async def redsus(ctx, *args): #star means we can use any amount of arguments
         img = File(f)
         await ctx.channel.send(file=img)
 
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name='stock')
 async def stock(ctx, image_path, top, bottom): #star means we can use any amount of arguments
     msg = " ".join(top)
@@ -381,7 +535,7 @@ async def stock(ctx, image_path, top, bottom): #star means we can use any amount
         img = File(f)
         await ctx.channel.send(file=img)
 
-
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name='emoji')
 async def emoji(ctx, image_path, top, bottom): #star means we can use any amount of arguments
     msg = " ".join(top)
@@ -432,8 +586,12 @@ async def emoji(ctx, image_path, top, bottom): #star means we can use any amount
 @bot.event
 async def on_command_error(ctx, err):
     if isinstance(err, commands.CommandNotFound):
-        await ctx.send("Not a usuable command! Check spelling/punctuation to ensure the command goes through!")
-
+        await ctx.send("Not a usuable command! Check spelling/punctuation or use '!help' for any assistance!")
+    if isinstance(err, commands.CommandOnCooldown):
+        msg = Embed(title="Cooldown Initiated!", description=f"Please wait {err.retry_after:.2f}s before using this command again!.", color=Color.red())
+        await ctx.send(embed=msg)
+    if isinstance(err, commands.MissingRequiredArgument):
+        await ctx.send("Missing an argument, please check the command you are using (!help) to make sure you're using it correctly!")
 #Event which clarifies to me that the bot is now running on the server without running into errors
 @bot.event
 async def on_ready():
