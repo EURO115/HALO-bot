@@ -17,9 +17,12 @@ import os
 
 from numpy import imag, isin
 
+#Allow JSON files to be used within the bot
 HG = json.load(open("help.json"))
 menuBoi = json.load(open("memeMenu.json"))
 
+#Using 'Nextcord' due to this build being the updated and modern approach to discord.py
+#Has same capabilities of discord.py 
 intents = nextcord.Intents.all()
 intents.message_content = True 
 intents.members = True
@@ -29,6 +32,8 @@ from nextcord.ext import commands
 bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command("help")
 
+#Built functions used to link JSON to bot
+#Allows users to select which page to look over
 def createHelp(pageNum=0, inline=False):
     pageNum = pageNum % len(list(HG))
     pageTitle = list(HG)[pageNum]
@@ -47,6 +52,8 @@ def createMemeMenu(pageNum=0, inline=False):
         embed.set_footer(text=f"Page {pageNum+1} of {len(list(menuBoi))}")
     return embed
 
+#Bot cooldown so command is not spammed 
+#'bot.command' serves as keyword; what the command will do when the user types it into a channel
 @commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name="memeMenu")
 async def memeMenu(ctx):
@@ -100,12 +107,14 @@ async def Help(ctx):
 # ----------- Small interactive/Fun commands --------------
 
 #Command which responds with .send() whenever someone writes the function name 
+#Small test unit to ensure bot is active and listening to user input
 @commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command(name='hi')
 async def hi(ctx):
     msg = await ctx.send(f'Hello {ctx.author.mention}')
     
 @commands.cooldown(1, 5, commands.BucketType.user)
+#Takes tagged users and creates artificial scenario 
 @bot.command(name='battle')
 async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
     event = random.randint(1, 5)
@@ -205,6 +214,7 @@ async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
 
 
 @commands.cooldown(1, 5, commands.BucketType.user)
+#Command used to test the import of emojis and external media 
 @bot.command(name='fart')
 async def fart(ctx, user: nextcord.Member):
     await ctx.send(f'{ctx.author.mention} is about to commence the greatest fart of all time!')
@@ -259,31 +269,25 @@ async def fart(ctx, user: nextcord.Member):
     time.sleep(3)
     await ctx.send("And so ends the world ending fart. Thank you for watching!")
 
+#Bot event corresponds to what the bot will do once a user does a certain action i.e. react to message    
 @bot.event
 async def on_reaction_add(reaction, user):
     if reaction.emoji == '😃':
         await user.send("Glad to see you are doing well :)")
         if user.respond == '1':
-            await user.send("FUCK!")
+            await user.send("Error!")
     if reaction.emoji == '😐':
         await user.send("")
     if reaction.emoji == '😔':
-        await user.send("Joe mama")
+        await user.send("Sad")
     if reaction.emoji == '😭':
-        await user.send("Joe mama")
+        await user.send("Crying")
     if reaction.emoji == '😠':
-        await user.send("Joe mama")
+        await user.send("Angry")
 
 @commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command()
-async def copypasta(ctx, numb: int):
-    if numb == 1:
-        await ctx.send("You sent me a message first, yeah. I live in Smethwick Birmingham if you want to FUCKING brawl. COME down, Smethwick, ask for Danny G, I'LL COME OUT MY HOUSE, AND I'LL BREAK YOUR FUCKING LEGS! YOU LITTLE PRICK! HEAR WHAT I'M SAYING?! HEAR WHAT I'M, FUCKING SAYING?! COME BIRMINGHAM AND I WILL FUCK YOU UP, COME BIRMINGHAM NOW, AND I WILL FUCK YOU UP! I TOLD YOU WHERE I LIVE, YOU WANT TO KNOW WHERE I LIVE?! I LIVE IN FUCKING SMETHWICK, NOW COME, AND I'LL KILL YAH. What's my problem? What's my problem? You, is my fucking problem. Shut your fucking mouth I'LL FIND OUT WHERE YOU LIVE AND I WILL COME AND FUCK YOU UP IN YOUR OWN HOUSE. SHUT THE FUCK UP YOU DON'T KNOW WHO I AM GEEZER, I AM A FUCKING MONSTER. DON'T FUCK ME ABOUT AND I'LL COME TO YOUR HOUSE AND I WILL FUCK YOU UP IN YOUR OWN HOUSE. I TOLD YOU WHERE I LIVE. COME TO MY HOUSE, SMETHWICK, COME TO MY HOUSE AND WE'LL SEE WHO KNOCKS WHO OUT MATE I'LL BREAK YOUR FUCKING FACE. SERIOUSLY MATE I'LL BREAK YOUR FACE, I WILL BREAK YOU OPEN, I SWEAR TO GOD YOU LITTLE PRICK. YOU SOUND LIKE YOU'RE 17 YOU LITTLE KNOBHEAD. I'VE GOT FUCKING KIDS OLDER THAN YOU MAN, I GOT KIDS THAT WILL FUCK YOU UP YOU DICKHEAD.")
-    if numb == 2:
-        await ctx.send("As a person who has lots of sex all the time, I can say that this game is 100% accurate to having sex with sexy women. like I do. everyday. this game did not make me horny, however. I am not gay. I just have too much sex with real women to spend more than 15 minutes in this game. on the other hand, I would recommend this game to people who do not have sex (unlike me because i have lots of sex with women lot) as there is a naked woman in it and she is naked. she kinda looks like one of my many girlfriends with who i have sex with a lot. i have lots of sex. i also very handsome and women ALWAYS want to have sex with me because i am very muscular and handsome and very good at video games. all my girlfriends say I'm very good at sex and playing video games and being handsome. one of my girlfriends asked me to have sex with her but i told her i was playing a sex game instead so she started crying and became a lesbian and killed herself because i did not have sex with her. i have sex with women. not men. i am not gay. i am very cool and handsome so girls always have sex with me because i am very cool and sexy. my penis is very big. all my girlfriends like my penis because it is very big and i am very good at sex with my women. every woman ive had sex with is very sexy and so am i. i have lots of sex. i am also very handsome and sexy and i have lots of sex.")
-
-@commands.cooldown(1, 5, commands.BucketType.user)
-@bot.command()
+#Small heads or tails game implementation
 async def flip(ctx, choice):
     options = ["H", "T"]
     result = random.choice(options)
@@ -299,6 +303,9 @@ async def flip(ctx, choice):
 
 @commands.cooldown(1, 5, commands.BucketType.user)
 @bot.command()
+#Creates auto password for the user
+#Uses the secret import so messages aren't less predictable; better option to random()
+#Password gets sent to the user but does not get shown on the bot log or anywhere else part from the users Direct Messages
 async def createPassword(ctx, user: nextcord.Member, *, length: int, password=None):
     if length > 20:
         await ctx.send("Command failed. Length size too big, please retype command and select a smaller number!")
@@ -315,18 +322,20 @@ async def createPassword(ctx, user: nextcord.Member, *, length: int, password=No
 
 @commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command()
+#Another small command using the random.randint method
 async def rudeball(ctx):
+    #Chooses randokm number from range - output varies from what number is generated
     num = random.randint(1, 10)
     if num == 1:
         await ctx.send("This question is meaningless, go outside and touch grass!")
     if num == 2:
         await ctx.send("Why are you asking me this, I have no idea!")
     if num == 3:
-        await ctx.send("Stop talking to me. Go on Valorant and continue being shite!")
+        await ctx.send("Stop talking to me. Go on Valorant and continue being bad!")
     if num == 4:
         await ctx.send("System failed: Try looking on reddit or youtube for your answer!")
     if num == 5:
-        await ctx.send("Jesus you sound clapped!")
+        await ctx.send("Wow ok!")
     if num == 6:
         await ctx.send("You reek of MIDness!")
     if num == 7:
@@ -336,15 +345,18 @@ async def rudeball(ctx):
     if num == 9:
         await ctx.send("The only answer you need is owning an NFT. Everything else falls into place!")
     if num == 10:
-        await ctx.send("Mate idk about this question, all I know is you are the definition of crig!")
+        await ctx.send("Mate idk about this question, all I know is you are the definition of cringe!")
 
 @commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command()
+#Mention user - another small test of nextcord functions
 async def mention(ctx):
     await ctx.send(ctx.author.mention)
 
 @commands.cooldown(1, 10, commands.BucketType.user)
 @bot.command()
+#Clears n amount of messages in select channel. Will give warning to make sure user wishes to delete n messages
+#Currently accessable to all, however modifying it to ensure select roles have access would be useful for servers with different levels of moderation
 async def clear(ctx, amount: int):
     while True:
         if amount > 20:
@@ -372,20 +384,24 @@ async def clear(ctx, amount: int):
 
 @commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command(name='roast')
+#Command which takes the select user pfp and writes ontop of it pre-selected word
 async def roast(ctx, user: nextcord.Member):
-    roast = {1: "smelly", 2: "Dumbass", 3: "Wanker", 4: "Cunt", 5: "Tosser", 6: "Great Yarmouth", 7: "Douchebag", 8: "Cock Muncher", 9: "Max", 10: "Rank Iron"}
+    #Dictionary containing the words which can be written onto the pfp
+    roast = {1: "smelly", 2: "Dumb", 3: "Bad", 4: "Small", 5: "Silly", 6: "Great Yarmouth", 7: "Dummy", 8: "Bad person", 9: "Max", 10: "Rank Iron"}
     x = random.choice(list(roast.values()))
     
+    #Takes the users pfp as the basis of what the word will be written on
     img = user.display_avatar
     await img.save("./images/roasted.png")
 
+    #Opens image, modifies and seleetcs where the text will be placed based of 2D co-ords
     msg = " ".join(x)
     font = ImageFont.truetype("./resources/PatrickHand-Regular.ttf", 22)
     image = Image.open("./images/roasted.png")
     new = image.resize((234, 234))
     new.save("./images/roasted.png")
     new_image = Image.open("./images/roasted.png")
-    cx, cy = (110, 175)
+    cx, cy = (110, 175) #Represents X and Y axis
     
     lines = textwrap.wrap(msg, width=30)
     print(lines)
@@ -393,6 +409,7 @@ async def roast(ctx, user: nextcord.Member):
     y_offset = (len(lines)*h)/2
     y_text = cy-(h/2) - y_offset
 
+    #For loop for text to be drawn on and image to be saves as different file
     for line in lines:  
         draw = ImageDraw.Draw(new_image)
         w, h = font.getsize(line)
@@ -400,12 +417,15 @@ async def roast(ctx, user: nextcord.Member):
         new_image.save("./images/roasted-edit.png")
         y_text += h
     
+    #Outputs result
     with open("./images/roasted-edit.png", "rb") as f:
         new_image = File(f)
         await ctx.send(file=new_image)
 
 @commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command()
+#Command for reminding the user on certain event
+#Uses dictionary to define time frame 
 async def reminder(ctx, time, *, reminder):
     user = ctx.author.mention
     def convert(time):
@@ -413,7 +433,7 @@ async def reminder(ctx, time, *, reminder):
         time_dict = {"s": 1, "m": 60, "h": 3600, "d": 3600*24, "y": 3600*24*365}
         unit = time[-1]
         if unit not in pos:
-            return -1
+            return -1 #If user does not use correct time string a error gets returned
         try:
             val = int(time[:-1])
         except:
@@ -585,13 +605,17 @@ async def emoji(ctx, image_path, top, bottom): #star means we can use any amount
 
 @bot.event
 async def on_command_error(ctx, err):
+    #Error checking - if command does not exist
     if isinstance(err, commands.CommandNotFound):
         await ctx.send("Not a usuable command! Check spelling/punctuation or use '!help' for any assistance!")
+    #Error checking - if command is on cooldown
     if isinstance(err, commands.CommandOnCooldown):
         msg = Embed(title="Cooldown Initiated!", description=f"Please wait {err.retry_after:.2f}s before using this command again!.", color=Color.red())
         await ctx.send(embed=msg)
+    #Error checking - if command is missing an argument
     if isinstance(err, commands.MissingRequiredArgument):
         await ctx.send("Missing an argument, please check the command you are using (!help) to make sure you're using it correctly!")
+        
 #Event which clarifies to me that the bot is now running on the server without running into errors
 @bot.event
 async def on_ready():
@@ -601,6 +625,6 @@ async def on_ready():
 
 
 #Runs the bot based on the TOKEN the bot provided
-#TO-DO: Make this secret
+#TO-DO: Make this secret if used locally
 if __name__ == '__main__':
     bot.run(os.environ["DISCORD_TOKEN"])
