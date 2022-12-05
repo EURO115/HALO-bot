@@ -136,7 +136,7 @@ async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
         await ctx.send("The battle is becoming increasingly tense!")
     time.sleep(2)
     if result == 1:
-        await ctx.send(f'Both **{user1.display_name}** and **{user2.display_name}** have killed eachother off!')
+        await ctx.send(f'Both **{user1.display_name}** and **{user2.display_name}** have destroyed eachother!')
         time.sleep(1)
         await ctx.send("This battle is a draw!")
         return
@@ -151,12 +151,12 @@ async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
         await ctx.send("This battle has no result!")
         return
     if result == 4:
-        await ctx.send(f'**{user1.display_name}** beheads **{user2.display_name}**!')
+        await ctx.send(f'**{user1.display_name}** eliminates **{user2.display_name}**!')
         time.sleep(1)
         await ctx.send(f"{user1.mention} Wins!")
         return
     if result == 5:
-        await ctx.send(f'**{user1.display_name}** quickscopes **{user2.display_name}** in the head!')
+        await ctx.send(f'**{user1.display_name}** quickscopes **{user2.display_name}** with style!')
         time.sleep(1)
         await ctx.send(f"{user1.mention} Wins!")
         return
@@ -168,11 +168,11 @@ async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
     if result == 7:
         await ctx.send(f'**{user1.display_name}** decides to spare **{user2.display_name}**!')
         time.sleep(1)
-        await ctx.send("Just kidding, they stab them in the heart!")
+        await ctx.send("Just kidding, they knock them out!")
         await ctx.send(f"{user1.mention} Wins!")
         return
     if result == 8:
-        await ctx.send(f'**{user2.display_name}** throws a Nokia at **{user1.display_name}**, killing them instantly!')
+        await ctx.send(f'**{user2.display_name}** throws a Nokia at **{user1.display_name}**, destroying them instantly!')
         time.sleep(1)
         await ctx.send(f"{user2.mention} Wins!")
         return
@@ -187,12 +187,12 @@ async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
         await ctx.send(f"{user1.mention} Wins!")
         return
     if result == 11:
-        await ctx.send(f'**{user2.display_name}** forces **{user1.display_name}** to play Valorant as Brimstone. **{user1.display_name}** has enough and shoots themselves!')
+        await ctx.send(f'**{user2.display_name}** forces **{user1.display_name}** to play Valorant as Brimstone. **{user1.display_name}** has enough and surrenders!')
         time.sleep(1)
         await ctx.send(f"{user2.mention} Wins (Brimmy with that stimmy)!")
         return
     if result == 12:
-        await ctx.send(f'**{user1.display_name}** chops off **{user2.display_name}** limbs!!')
+        await ctx.send(f'**{user1.display_name}** destroys **{user2.display_name}** iPhone!')
         time.sleep(1)
         await ctx.send(f"{user1.mention} Wins!")
         return
@@ -207,67 +207,11 @@ async def battle(ctx, user1: nextcord.Member, user2: nextcord.Member):
         await ctx.send(f"{user2.mention} Wins!")
         return
     if result == 15:
-        await ctx.send(f'**{user2.display_name}** makes **{user1.display_name}** draw furry fanart!')
+        await ctx.send(f'**{user2.display_name}** makes **{user1.display_name}** retire!')
         time.sleep(1)
         await ctx.send(f"{user2.mention} Wins!")
         return
 
-
-@commands.cooldown(1, 5, commands.BucketType.user)
-#Command used to test the import of emojis and external media 
-@bot.command(name='fart')
-async def fart(ctx, user: nextcord.Member):
-    await ctx.send(f'{ctx.author.mention} is about to commence the greatest fart of all time!')
-    time.sleep(2)
-    await ctx.send("😃")
-    time.sleep(1)
-    await ctx.send("😐")
-    time.sleep(1)
-    await ctx.send("😣")
-    time.sleep(1)
-    await ctx.send("😣")
-    time.sleep(1)
-    await ctx.send("😫")
-    time.sleep(1)
-    await ctx.send("The great fart travels. With no stopping in sight")
-    time.sleep(2)
-    await ctx.send("😫💨")
-    time.sleep(2)
-    await ctx.send("But wait.....THE FART HAS EVOLVED!!!")
-    time.sleep(2)
-    await ctx.send("😫🔥💨")
-    time.sleep(1)
-    ctx.send(f"{ctx.author.mention} fart is so extreme it has become THERMAL!!")
-    time.sleep(3)
-    await ctx.send("😫🔥        💨")
-    time.sleep(1)
-    await ctx.send("😫🔥            💨")
-    time.sleep(1)
-    await ctx.send("😫🔥                💨")
-    time.sleep(1)
-    await ctx.send("😫🔥                    💨")
-    time.sleep(1)
-    await ctx.send(f"{ctx.author.mention} RELEASES MORE FARTS INTO THE ATMOSPHERE!!!")
-    time.sleep(3)
-    await ctx.send("😫🔥💨💨💨💨💨💨")
-    time.sleep(1)
-    await ctx.send("😫🔥💨💨💨💨💨💨💨💨")
-    time.sleep(1)
-    await ctx.send("😫🔥💨💨💨💨💨💨💨💨💨💨")
-    time.sleep(1)
-    await ctx.send(f"OH GOD THE WORLD IS FILLING WITH FARTS, WHAT HAVE YOU DONE {ctx.author.mention}")
-    time.sleep(5)
-    await ctx.send("OH DEAR GOD THE EARTH!!")
-    time.sleep(3)
-    await ctx.send("💨          🌍")
-    time.sleep(1)
-    await ctx.send("💨      🌍")
-    time.sleep(1)
-    await ctx.send("💨  🌍")
-    time.sleep(1)
-    await ctx.send("🔥🔥🔥")
-    time.sleep(3)
-    await ctx.send("And so ends the world ending fart. Thank you for watching!")
 
 #Bot event corresponds to what the bot will do once a user does a certain action i.e. react to message    
 @bot.event
