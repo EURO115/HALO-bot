@@ -571,4 +571,4 @@ async def on_ready():
 #Runs the bot based on the TOKEN the bot provided
 #TO-DO: Make this secret if used locally
 if __name__ == '__main__':
-    bot.run(os.environ["DISCORD_TOKEN"])
+    bot.run()
